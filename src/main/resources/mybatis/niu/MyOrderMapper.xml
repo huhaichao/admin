@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.MyOrderDao">
+
+	<select id="selectTicketList" resultType="com.irevest.niu.domain.MyOrderDO">
+		select
+		a.id,a.user_id,a.order_no,order_status,ticket_identity,identity_type,ticket_name,linkman_type,from_site,to_site,group_concat(b.seat_type) as seat_type,group_concat(b.departure_date) as departure_date,group_concat(b.train_num) as train_num,order_amount
+        from ticket_order a
+		join ticket_details b
+		on a.order_no=b.order_no
+		where order_status in('wait_rob','robing') and  a.order_no not in(select order_id  from rob_order  where user_id=#{userId})
+		group by  a.order_no,a.id,a.user_id,order_status,ticket_identity,identity_type,ticket_name,linkman_type,from_site,to_site,order_amount
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from ticket_order
+		<where>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="1==1">and order_status in('wait_rob','robing')</if>
+		</where>
+	</select>
+
+
+	<select id="selectTicketListRob" resultType="com.irevest.niu.domain.MyOrderDO">
+		select
+		c.id,c.user_id,a.order_no,rob_status,ticket_identity,identity_type,ticket_name,linkman_type,from_site,to_site,
+        group_concat(b.seat_type) as seat_type,group_concat(b.departure_date) as departure_date,group_concat(b.train_num) as train_num,rob_amount,c.remark
+		from ticket_order a
+		join ticket_details b
+		on a.order_no=b.order_no
+		join rob_order c on b.order_no=c.order_id
+		<where>
+			<if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+			<if test="userId != null and userId != ''"> and c.user_id = #{userId} </if>
+			<if test="robStatus !=null and robStatus !=''"> and rob_status =#{robStatus}</if>
+			<if test="robStatus==null or robStatus==''"> and rob_status in('wait_rob','robing','rob_check','user_pay','ticket_success','success','rob_lock')</if>
+			<if test="1==1">
+			and c.rob_scbs=0
+            group by  a.order_no,c.id,c.user_id,rob_status,ticket_identity,identity_type,ticket_name,linkman_type,from_site,to_site,rob_amount,c.remark
+			</if>
+		</where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="selectTicketListRobDel" resultType="com.irevest.niu.domain.MyOrderDO">
+		select
+		c.id,c.user_id,a.order_no,rob_status,ticket_identity,identity_type,ticket_name,linkman_type,from_site,to_site,
+        group_concat(b.seat_type) as seat_type,group_concat(b.departure_date) as departure_date,group_concat(b.train_num) as train_num,rob_amount,c.remark
+		from ticket_order a
+		join ticket_details b
+		on a.order_no=b.order_no
+		join rob_order c on b.order_no=c.order_id
+		<where>
+			<if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+			<if test="userId != null and userId != ''"> and c.user_id = #{userId} </if>
+			<if test="1==1">
+			and rob_status in('wait_rob','robing','rob_check','user_pay','ticket_success','success','rob_lock') and c.rob_scbs=1
+			 group by  a.order_no,c.id,c.user_id,rob_status,ticket_identity,identity_type,ticket_name,linkman_type,from_site,to_site,rob_amount,c.remark
+			</if>
+		</where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+
+
+	</select>
+</mapper>

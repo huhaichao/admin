@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.NiuNotifyDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.NiuNotifyDO">
+		select `id`,`from`,`to`,`title`,`context`,`notify_status`,`create_date`,`notify_date`,`modify_date` from notify where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.NiuNotifyDO">
+		select `id`,`from`,`to`,`title`,`context`,`notify_status`,`create_date`,`notify_date`,`modify_date` from notify
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="from != null and from != ''"> and from = #{from} </if>
+		  		  <if test="to != null and to != ''"> and to = #{to} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="context != null and context != ''"> and context = #{context} </if>
+		  		  <if test="notifyStatus != null and notifyStatus != ''"> and notify_status = #{notifyStatus} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="notifyDate != null and notifyDate != ''"> and notify_date = #{notifyDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from notify
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="from != null and from != ''"> and from = #{from} </if>
+		  		  <if test="to != null and to != ''"> and to = #{to} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="context != null and context != ''"> and context = #{context} </if>
+		  		  <if test="notifyStatus != null and notifyStatus != ''"> and notify_status = #{notifyStatus} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="notifyDate != null and notifyDate != ''"> and notify_date = #{notifyDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.NiuNotifyDO" useGeneratedKeys="true" keyProperty="id">
+		insert into notify
+		(
+			`from`, 
+			`to`, 
+			`title`, 
+			`context`, 
+			`notify_status`, 
+			`create_date`, 
+			`notify_date`, 
+			`modify_date`
+		)
+		values
+		(
+			#{from}, 
+			#{to}, 
+			#{title}, 
+			#{context}, 
+			#{notifyStatus}, 
+			#{createDate}, 
+			#{notifyDate}, 
+			#{modifyDate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.NiuNotifyDO">
+		update notify 
+		<set>
+			<if test="from != null">`from` = #{from}, </if>
+			<if test="to != null">`to` = #{to}, </if>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="context != null">`context` = #{context}, </if>
+			<if test="notifyStatus != null">`notify_status` = #{notifyStatus}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="notifyDate != null">`notify_date` = #{notifyDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from notify where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from notify where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

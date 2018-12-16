@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.HomeStationDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.HomeStationDO">
+		select `cid`,`title`,`created`,`modified`,`content`,`author`,`gtm_create`,`gtm_modified` from home_station where cid = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.HomeStationDO">
+		select `cid`,`title`,`created`,`modified`,`content`,`author`,`gtm_create`,`gtm_modified` from home_station
+        <where>  
+		  		  <if test="cid != null and cid != ''"> and cid = #{cid} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		  		  <if test="content != null and content != ''"> and content = #{content} </if>
+		  		  <if test="author != null and author != ''"> and author = #{author} </if>
+		  		  <if test="gtmCreate != null and gtmCreate != ''"> and gtm_create = #{gtmCreate} </if>
+		  		  <if test="gtmModified != null and gtmModified != ''"> and gtm_modified = #{gtmModified} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by cid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from home_station
+		 <where>  
+		  		  <if test="cid != null and cid != ''"> and cid = #{cid} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		  		  <if test="content != null and content != ''"> and content = #{content} </if>
+		  		  <if test="author != null and author != ''"> and author = #{author} </if>
+		  		  <if test="gtmCreate != null and gtmCreate != ''"> and gtm_create = #{gtmCreate} </if>
+		  		  <if test="gtmModified != null and gtmModified != ''"> and gtm_modified = #{gtmModified} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.HomeStationDO">
+		insert into home_station
+		(
+			`cid`, 
+			`title`, 
+			`created`, 
+			`modified`, 
+			`content`, 
+			`author`, 
+			`gtm_create`, 
+			`gtm_modified`
+		)
+		values
+		(
+			#{cid}, 
+			#{title}, 
+			#{created}, 
+			#{modified}, 
+			#{content}, 
+			#{author}, 
+			#{gtmCreate}, 
+			#{gtmModified}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.HomeStationDO">
+		update home_station 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="created != null">`created` = #{created}, </if>
+			<if test="modified != null">`modified` = #{modified}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="author != null">`author` = #{author}, </if>
+			<if test="gtmCreate != null">`gtm_create` = #{gtmCreate}, </if>
+			<if test="gtmModified != null">`gtm_modified` = #{gtmModified}</if>
+		</set>
+		where cid = #{cid}
+	</update>
+	
+	<delete id="remove">
+		delete from home_station where cid = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from home_station where cid in 
+		<foreach item="cid" collection="array" open="(" separator="," close=")">
+			#{cid}
+		</foreach>
+	</delete>
+
+</mapper>

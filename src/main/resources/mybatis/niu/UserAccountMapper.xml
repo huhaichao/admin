@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.UserAccountDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.UserAccountDO">
+		select `id`,`account_no`,`user_id`,`amount_balance`,`cool_amount`,`create_date`,`modify_date`,`status` from user_account where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.UserAccountDO">
+		select `id`,`account_no`,`user_id`,`amount_balance`,`cool_amount`,`create_date`,`modify_date`,`status` from user_account
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="accountNo != null and accountNo != ''"> and account_no = #{accountNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="amountBalance != null and amountBalance != ''"> and amount_balance = #{amountBalance} </if>
+		  		  <if test="coolAmount != null and coolAmount != ''"> and cool_amount = #{coolAmount} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from user_account
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="accountNo != null and accountNo != ''"> and account_no = #{accountNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="amountBalance != null and amountBalance != ''"> and amount_balance = #{amountBalance} </if>
+		  		  <if test="coolAmount != null and coolAmount != ''"> and cool_amount = #{coolAmount} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.UserAccountDO">
+		insert into user_account
+		(
+			`id`, 
+			`account_no`, 
+			`user_id`, 
+			`amount_balance`, 
+			`cool_amount`, 
+			`create_date`, 
+			`modify_date`, 
+			`status`
+		)
+		values
+		(
+			#{id}, 
+			#{accountNo}, 
+			#{userId}, 
+			#{amountBalance}, 
+			#{coolAmount}, 
+			#{createDate}, 
+			#{modifyDate}, 
+			#{status}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.UserAccountDO">
+		update user_account 
+		<set>
+			<if test="accountNo != null">`account_no` = #{accountNo}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="amountBalance != null">`amount_balance` = #{amountBalance}, </if>
+			<if test="coolAmount != null">`cool_amount` = #{coolAmount}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="status != null">`status` = #{status}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from user_account where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from user_account where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

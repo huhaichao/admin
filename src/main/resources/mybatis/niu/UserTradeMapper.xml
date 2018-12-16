@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.UserTradeDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.UserTradeDO">
+		select `id`,`trade_no`,`order_no`,`amount`,`fact_amount`,`fee`,`from_account`,`to_account`,`status`,`create_date`,`modify_date`,`remark` from user_trade where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.UserTradeDO">
+		select `id`,`trade_no`,`order_no`,`amount`,`fact_amount`,`fee`,`from_account`,`to_account`,`status`,`create_date`,`modify_date`,`remark` from user_trade
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tradeNo != null and tradeNo != ''"> and trade_no = #{tradeNo} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="amount != null and amount != ''"> and amount = #{amount} </if>
+		  		  <if test="factAmount != null and factAmount != ''"> and fact_amount = #{factAmount} </if>
+		  		  <if test="fee != null and fee != ''"> and fee = #{fee} </if>
+		  		  <if test="fromAccount != null and fromAccount != ''"> and from_account = #{fromAccount} </if>
+		  		  <if test="toAccount != null and toAccount != ''"> and to_account = #{toAccount} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from user_trade
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tradeNo != null and tradeNo != ''"> and trade_no = #{tradeNo} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="amount != null and amount != ''"> and amount = #{amount} </if>
+		  		  <if test="factAmount != null and factAmount != ''"> and fact_amount = #{factAmount} </if>
+		  		  <if test="fee != null and fee != ''"> and fee = #{fee} </if>
+		  		  <if test="fromAccount != null and fromAccount != ''"> and from_account = #{fromAccount} </if>
+		  		  <if test="toAccount != null and toAccount != ''"> and to_account = #{toAccount} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.UserTradeDO">
+		insert into user_trade
+		(
+			`id`, 
+			`trade_no`, 
+			`order_no`, 
+			`amount`, 
+			`fact_amount`, 
+			`fee`, 
+			`from_account`, 
+			`to_account`, 
+			`status`, 
+			`create_date`, 
+			`modify_date`, 
+			`remark`
+		)
+		values
+		(
+			#{id}, 
+			#{tradeNo}, 
+			#{orderNo}, 
+			#{amount}, 
+			#{factAmount}, 
+			#{fee}, 
+			#{fromAccount}, 
+			#{toAccount}, 
+			#{status}, 
+			#{createDate}, 
+			#{modifyDate}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.UserTradeDO">
+		update user_trade 
+		<set>
+			<if test="tradeNo != null">`trade_no` = #{tradeNo}, </if>
+			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
+			<if test="amount != null">`amount` = #{amount}, </if>
+			<if test="factAmount != null">`fact_amount` = #{factAmount}, </if>
+			<if test="fee != null">`fee` = #{fee}, </if>
+			<if test="fromAccount != null">`from_account` = #{fromAccount}, </if>
+			<if test="toAccount != null">`to_account` = #{toAccount}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from user_trade where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from user_trade where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="listTrades" resultType="com.irevest.niu.domain.UserTradesDO">
+		select a.id, a.order_no,c.order_amount,a.fact_amount,a.fee,d.user_id as sh_user_id,d.business_name,d.business_account,a.status,c.user_id,c.from_site,c.to_site ,a.create_date
+		from user_trade a 
+		join rob_order  b 
+		on a.order_no=b.order_id
+		join ticket_order c
+		on b.order_id=c.order_no
+		join ticket_business d
+		on b.user_id=d.user_id
+		where rob_status=#{robStatus} and 
+		
+		order_id in 
+	<foreach item="orderNo" collection="orderNo" open="(" separator="," close=")">
+	    #{orderNo}
+	</foreach>
+	</select>
+
+
+	<select id="countTrades" resultType="int">
+		select count(*)
+		from user_trade a 
+		join rob_order  b 
+		on a.order_no=b.order_id
+		join ticket_order c
+		on b.order_id=c.order_no
+		join ticket_business d
+		on b.user_id=d.user_id
+		where rob_status=#{robStatus} and 
+		
+		order_id in 
+	<foreach item="orderNo" collection="orderNo" open="(" separator="," close=")">
+	    #{orderNo}
+	</foreach>
+	</select>
+
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.ReturnOrderDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.ReturnOrderDO">
+		select `id`,`user_id`,`return_no`,`order_no`,`deposit_no`,`trade_channels_no`,`trade_channels_return_no`,`return_amount`,`order_amount`,`return_status`,`return_type`,`create_date`,`modify_date`,`retun_time`,`remark`,`app_code`,`refund_account`,`refund_request_source`,`refund_recv_accout` from return_order where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.ReturnOrderDO">
+		select `id`,`user_id`,`return_no`,`order_no`,`deposit_no`,`trade_channels_no`,`trade_channels_return_no`,`return_amount`,`order_amount`,`return_status`,`return_type`,`create_date`,`modify_date`,`retun_time`,`remark`,`app_code`,`refund_account`,`refund_request_source`,`refund_recv_accout` from return_order
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="returnNo != null and returnNo != ''"> and return_no = #{returnNo} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="depositNo != null and depositNo != ''"> and deposit_no = #{depositNo} </if>
+		  		  <if test="tradeChannelsNo != null and tradeChannelsNo != ''"> and trade_channels_no = #{tradeChannelsNo} </if>
+		  		  <if test="tradeChannelsReturnNo != null and tradeChannelsReturnNo != ''"> and trade_channels_return_no = #{tradeChannelsReturnNo} </if>
+		  		  <if test="returnAmount != null and returnAmount != ''"> and return_amount = #{returnAmount} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="returnStatus != null and returnStatus != ''"> and return_status = #{returnStatus} </if>
+		  		  <if test="returnType != null and returnType != ''"> and return_type = #{returnType} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="retunTime != null and retunTime != ''"> and retun_time = #{retunTime} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="appcode != null and appcode != ''"> and app_code = #{appcode} </if>
+		  		  <if test="refundAccount != null and refundAccount != ''"> and refund_account = #{refundAccount} </if>
+		  		  <if test="refundRequestSource != null and refundRequestSource != ''"> and refund_request_source = #{refundRequestSource} </if>
+		  		  <if test="refundRecvAccout != null and refundRecvAccout != ''"> and refund_recv_accout = #{refundRecvAccout} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from return_order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="returnNo != null and returnNo != ''"> and return_no = #{returnNo} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="depositNo != null and depositNo != ''"> and deposit_no = #{depositNo} </if>
+		  		  <if test="tradeChannelsNo != null and tradeChannelsNo != ''"> and trade_channels_no = #{tradeChannelsNo} </if>
+		  		  <if test="tradeChannelsReturnNo != null and tradeChannelsReturnNo != ''"> and trade_channels_return_no = #{tradeChannelsReturnNo} </if>
+		  		  <if test="returnAmount != null and returnAmount != ''"> and return_amount = #{returnAmount} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="returnStatus != null and returnStatus != ''"> and return_status = #{returnStatus} </if>
+		  		  <if test="returnType != null and returnType != ''"> and return_type = #{returnType} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="retunTime != null and retunTime != ''"> and retun_time = #{retunTime} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="appcode != null and appcode != ''"> and app_code = #{appcode} </if>
+		  		  <if test="refundAccount != null and refundAccount != ''"> and refund_account = #{refundAccount} </if>
+		  		  <if test="refundRequestSource != null and refundRequestSource != ''"> and refund_request_source = #{refundRequestSource} </if>
+		  		  <if test="refundRecvAccout != null and refundRecvAccout != ''"> and refund_recv_accout = #{refundRecvAccout} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.ReturnOrderDO">
+		insert into return_order
+		(
+			`id`, 
+			`user_id`, 
+			`return_no`, 
+			`order_no`, 
+			`deposit_no`, 
+			`trade_channels_no`, 
+			`trade_channels_return_no`, 
+			`return_amount`, 
+			`order_amount`, 
+			`return_status`, 
+			`return_type`, 
+			`create_date`, 
+			`modify_date`, 
+			`retun_time`, 
+			`remark`, 
+			`app_code`, 
+			`refund_account`, 
+			`refund_request_source`, 
+			`refund_recv_accout`
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{returnNo}, 
+			#{orderNo}, 
+			#{depositNo}, 
+			#{tradeChannelsNo}, 
+			#{tradeChannelsReturnNo}, 
+			#{returnAmount}, 
+			#{orderAmount}, 
+			#{returnStatus}, 
+			#{returnType}, 
+			#{createDate}, 
+			#{modifyDate}, 
+			#{retunTime}, 
+			#{remark}, 
+			#{appcode}, 
+			#{refundAccount}, 
+			#{refundRequestSource}, 
+			#{refundRecvAccout}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.ReturnOrderDO">
+		update return_order 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="returnNo != null">`return_no` = #{returnNo}, </if>
+			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
+			<if test="depositNo != null">`deposit_no` = #{depositNo}, </if>
+			<if test="tradeChannelsNo != null">`trade_channels_no` = #{tradeChannelsNo}, </if>
+			<if test="tradeChannelsReturnNo != null">`trade_channels_return_no` = #{tradeChannelsReturnNo}, </if>
+			<if test="returnAmount != null">`return_amount` = #{returnAmount}, </if>
+			<if test="orderAmount != null">`order_amount` = #{orderAmount}, </if>
+			<if test="returnStatus != null">`return_status` = #{returnStatus}, </if>
+			<if test="returnType != null">`return_type` = #{returnType}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="retunTime != null">`retun_time` = #{retunTime}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="appcode != null">`app_code` = #{appcode}, </if>
+			<if test="refundAccount != null">`refund_account` = #{refundAccount}, </if>
+			<if test="refundRequestSource != null">`refund_request_source` = #{refundRequestSource}, </if>
+			<if test="refundRecvAccout != null">`refund_recv_accout` = #{refundRecvAccout}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from return_order where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from return_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

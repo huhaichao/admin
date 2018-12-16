@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.CustomerDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.CustomerDO">
+		select `id`,`user_id`,`customer_identity`,`identity_image`,`customer_name`,`customer_addrr`,`customer_post`,`customer_account`,`customer_password`,`customer_status`,`create_date`,`modify_date`,`remark` from ticket_customer where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.CustomerDO">
+		select `id`,`user_id`,`customer_identity`,`identity_image`,`customer_name`,`customer_addrr`,`customer_post`,`customer_account`,`customer_password`,`customer_status`,`create_date`,`modify_date`,`remark` from ticket_customer
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="customerIdentity != null and customerIdentity != ''"> and customer_identity = #{customerIdentity} </if>
+		  		  <if test="identityImage != null and identityImage != ''"> and identity_image = #{identityImage} </if>
+		  		  <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+		  		  <if test="customerAddrr != null and customerAddrr != ''"> and customer_addrr = #{customerAddrr} </if>
+		  		  <if test="customerPost != null and customerPost != ''"> and customer_post = #{customerPost} </if>
+		  		  <if test="customerAccount != null and customerAccount != ''"> and customer_account = #{customerAccount} </if>
+		  		  <if test="customerPassword != null and customerPassword != ''"> and customer_password = #{customerPassword} </if>
+		  		  <if test="customerStatus != null and customerStatus != ''"> and customer_status = #{customerStatus} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from ticket_customer
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="customerIdentity != null and customerIdentity != ''"> and customer_identity = #{customerIdentity} </if>
+		  		  <if test="identityImage != null and identityImage != ''"> and identity_image = #{identityImage} </if>
+		  		  <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+		  		  <if test="customerAddrr != null and customerAddrr != ''"> and customer_addrr = #{customerAddrr} </if>
+		  		  <if test="customerPost != null and customerPost != ''"> and customer_post = #{customerPost} </if>
+		  		  <if test="customerAccount != null and customerAccount != ''"> and customer_account = #{customerAccount} </if>
+		  		  <if test="customerPassword != null and customerPassword != ''"> and customer_password = #{customerPassword} </if>
+		  		  <if test="customerStatus != null and customerStatus != ''"> and customer_status = #{customerStatus} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.CustomerDO" useGeneratedKeys="true" keyProperty="id">
+		insert into ticket_customer
+		(
+			`user_id`, 
+			`customer_identity`, 
+			`identity_image`, 
+			`customer_name`, 
+			`customer_addrr`, 
+			`customer_post`, 
+			`customer_account`, 
+			`customer_password`, 
+			`customer_status`, 
+			`create_date`, 
+			`modify_date`, 
+			`remark`
+		)
+		values
+		(
+			#{userId}, 
+			#{customerIdentity}, 
+			#{identityImage}, 
+			#{customerName}, 
+			#{customerAddrr}, 
+			#{customerPost}, 
+			#{customerAccount}, 
+			#{customerPassword}, 
+			#{customerStatus}, 
+			#{createDate}, 
+			#{modifyDate}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.CustomerDO">
+		update ticket_customer 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="customerIdentity != null">`customer_identity` = #{customerIdentity}, </if>
+			<if test="identityImage != null">`identity_image` = #{identityImage}, </if>
+			<if test="customerName != null">`customer_name` = #{customerName}, </if>
+			<if test="customerAddrr != null">`customer_addrr` = #{customerAddrr}, </if>
+			<if test="customerPost != null">`customer_post` = #{customerPost}, </if>
+			<if test="customerAccount != null">`customer_account` = #{customerAccount}, </if>
+			<if test="customerPassword != null">`customer_password` = #{customerPassword}, </if>
+			<if test="customerStatus != null">`customer_status` = #{customerStatus}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from ticket_customer where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from ticket_customer where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

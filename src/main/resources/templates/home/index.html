@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		
+		<title>北京拾缘科技有限公司</title>
+		<meta name="description" content="专业解决订票困难，一键发布无需盯单">
+		<meta name="author" content="htmlcoder.me">
+
+		<!-- Mobile Meta -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="favicon.ico">
+
+		<!-- Web Fonts -->
+
+		<!-- Bootstrap core CSS -->
+		<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+		<!-- Font Awesome CSS -->
+		<link href="/fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+		<!-- Fontello CSS -->
+		<link href="/fonts/fontello/css/fontello.css" rel="stylesheet">
+
+		<!-- Plugins -->
+		<link href="/plugins/rs-plugin/css/settings.css" media="screen" rel="stylesheet">
+		<link href="/plugins/rs-plugin/css/extralayers.css" media="screen" rel="stylesheet">
+		<link href="/plugins/magnific-popup/magnific-popup.css" rel="stylesheet">
+		<link href="/css/animations.css" rel="stylesheet">
+		<link href="/plugins/owl-carousel/owl.carousel.css" rel="stylesheet">
+
+		<!-- iDea core CSS file -->
+		<link href="/css/home/style.css" rel="stylesheet">
+
+		<!-- Color Scheme (In order to change the color scheme, replace the red.css with the color scheme that you prefer)-->
+        <link href="/css/home/skins/orange.css" rel="stylesheet">
+		<!-- Custom css --> 
+	    <link href="/css/home/custom.css" rel="stylesheet">
+	</head>
+	<body class="front">
+	
+		<!-- scrollToTop -->
+		<!-- ================ -->
+		<div class="scrollToTop"><i class="icon-up-open-big"></i></div>
+
+		<!-- page wrapper start -->
+		<!-- ================ -->
+		<div class="page-wrapper">
+
+			<!-- header start (remove fixed class from header in order to disable fixed navigation mode) -->
+			<!-- ================ --> 
+			<header class="header fixed header-small clearfix">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3">
+
+							<!-- header-left start -->
+							<!-- ================ -->
+							<div class="header-left clearfix">
+
+								<!-- logo -->
+								<div class="logo">
+									<img id="logo" src="/img/logo.png" alt="iDea">
+								</div>
+							</div>
+							<!-- header-left end -->
+
+						</div>
+						<div class="col-md-9">
+
+							<!-- header-right start -->
+							<!-- ================ -->
+							<div class="header-right clearfix">
+
+								<!-- main-navigation start -->
+								<!-- ================ -->
+								<div class="main-navigation animated">
+
+									<!-- navbar start -->
+									<!-- ================ -->
+									<nav class="navbar navbar-default" role="navigation">
+										<div class="container-fluid">
+
+											<!-- Collect the nav links, forms, and other content for toggling -->
+											<div class="collapse navbar-collapse" id="navbar-collapse-1" th:utext="${cdym.content}">
+
+											</div>
+
+										</div>
+									</nav>
+									<!-- navbar end -->
+								</div>
+								<!-- main-navigation end -->
+							</div>
+							<!-- header-right end -->
+						</div>
+					</div>
+				</div>
+			</header>
+			<!-- header end -->
+
+			<!-- banner start -->
+			<!-- ================ -->
+			<div class="banner">
+
+				<!-- slideshow start -->
+				<!-- ================ -->
+				<div class="slideshow white-bg">
+					
+					<!-- slider revolution start -->
+					<!-- ================ -->
+					<div class="slider-banner-container">
+						<div class="slider-banner-fullscreen" th:utext="${lxtp.content}">
+						</div>
+					</div>
+					<!-- slider revolution end -->
+
+				</div>
+				<!-- slideshow end -->
+			</div>
+			
+			<div class="white-bg section">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row" th:utext="${gplc.content}">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+			<!-- page-top start-->
+			<!-- ================ -->
+			<a name="user"></a>
+			<div class="page-top object-non-visible default-bg" data-animation-effect="fadeInUpSmall" data-effect-delay="100">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12" th:utext="${cpjs.content}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- page-top end -->
+			<a name="productIntr"></a>
+			<section class="main-container bg-blue-active">
+				<div class="container">
+					<div class="row">
+						<!-- main start -->
+						<!-- ================ -->
+						<div class="main col-md-12" th:utext="${swhz.content}">
+						</div>
+						<!-- main end -->
+
+					</div>
+				</div>
+			</section>
+			
+			<!-- section start -->
+			<!-- ================ -->
+			<a name="aboutUs"></a>
+			<div class="section clearfix object-non-visible" data-animation-effect="fadeInUpSmall" data-effect-delay="200">
+				<div class="container" th:utext="${gywm.content}">
+				</div>
+			</div>
+
+			<!-- section end -->
+			<hr class="white-bg"/>
+			<!-- main-container start -->
+			<section class="main-container dark-bg">
+				<div class="container">
+					<div class="row" th:utext="${lxfs.content}">
+	
+					</div>
+				</div>
+			</section>
+			<!-- main-container end -->
+				<a name="Contact"></a>
+				<!-- .subfooter start -->
+				<!-- ================ -->
+				<div class="subfooter">
+					<div class="container">
+						<div class="row"  th:utext="${wzdb.content}">
+						</div>
+					</div>
+				</div>
+				<!-- .subfooter end -->
+			</footer>
+			<!-- footer end -->
+		</div>
+		<!-- page-wrapper end -->
+
+		<!-- JavaScript files placed at the end of the document so the pages load faster
+		================================================== -->
+		<!-- Jquery and Bootstap core js files -->
+		<script type="text/javascript" src="/plugins/jquery.min.js"></script>
+		<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+
+		<!-- Modernizr javascript -->
+		<script type="text/javascript" src="/plugins/modernizr.js"></script>
+
+		<!-- jQuery REVOLUTION Slider  -->
+		<script type="text/javascript" src="/plugins/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+		<script type="text/javascript" src="/plugins/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+
+		<!-- Isotope javascript -->
+		<script type="text/javascript" src="/plugins/isotope/isotope.pkgd.min.js"></script>
+
+		<!-- Owl carousel javascript -->
+		<script type="text/javascript" src="/plugins/owl-carousel/owl.carousel.js"></script>
+
+		<!-- Magnific Popup javascript -->
+		<script type="text/javascript" src="/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+		<!-- Appear javascript -->
+		<script type="text/javascript" src="/plugins/jquery.appear.js"></script>
+
+		<!-- Count To javascript -->
+		<script type="text/javascript" src="/plugins/jquery.countTo.js"></script>
+
+		<!-- Parallax javascript -->
+		<script src="/plugins/jquery.parallax-1.1.3.js"></script>
+
+		<!-- Contact form -->
+		<script src="/plugins/jquery.validate.js"></script>
+
+		<!-- Initialization of Plugins -->
+		<script type="text/javascript" src="/js/template.js"></script>
+
+		<!-- Custom Scripts -->
+		<script type="text/javascript" src="/js/custom.js"></script>
+		<!-- Custom Scripts -->
+		<script type="text/javascript" src="/js/home/homeInit.js"></script>
+	</body>
+</html>

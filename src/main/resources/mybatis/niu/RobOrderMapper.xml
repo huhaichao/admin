@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.RobOrderDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.RobOrderDO">
+		select `id`,`user_id`,`order_id`,`rob_status`,`proof_image`,`create_date`,`modify_date`,`remark`,`app_code`,`rob_scbs`,`rob_amount`,`rob_context` from rob_order where id = #{value}
+	</select>
+
+	<select id="getEntity" resultType="com.irevest.niu.domain.RobOrderDO">
+		select `id`,`user_id`,`order_id`,`rob_status`,`proof_image`,`create_date`,`modify_date`,`remark`,`app_code`,`rob_scbs`,`rob_amount`,`rob_context` from rob_order where order_id = #{orderNo} and user_id=#{userId}
+	</select>
+	
+	<select id="getEntitys" resultType="com.irevest.niu.domain.RobOrderDO">
+		select `id`,`user_id`,`order_id`,`rob_status`,`proof_image`,`create_date`,`modify_date`,`remark`,`app_code`,`rob_scbs`,`rob_amount`,`rob_context` from rob_order where order_id = #{orderNo}
+	</select>
+	
+	<!-- 根据订单号判断订单状态信息 -->
+	<select id="getCheckcount" resultType="int">
+		select count(*) from rob_order
+		where order_id = #{orderNo} and rob_status in('rob_check','user_pay','ticket_success','success');
+	</select>
+	
+	<select id="list" resultType="com.irevest.niu.domain.RobOrderDO">
+		select `id`,`user_id`,`order_id`,`rob_status`,`proof_image`,`create_date`,`modify_date`,`remark`,`app_code`,`rob_scbs`,`rob_amount`,`rob_context`  from rob_order
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="robStatus != null and robStatus != ''"> and rob_status = #{robStatus} </if>
+		  		  <if test="proofImage != null and proofImage != ''"> and proof_image = #{proofImage} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="appCode != null and appCode != ''"> and app_code = #{appCode} </if>
+				  	<if test="robScbs != null and robScbs!=''"> and `rob_scbs` = #{robScbs}</if>
+					<if test="robAmount != null and robAmount!=''"> and `rob_amount` = #{robAmount}</if>
+					<if test="robContext != null and robContext!=''"> and `rob_context` = #{robContext}</if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from rob_order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="robStatus != null and robStatus != ''"> and rob_status = #{robStatus} </if>
+		  		  <if test="proofImage != null and proofImage != ''"> and proof_image = #{proofImage} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="appCode != null and appCode != ''"> and app_code = #{appCode} </if>
+		  		  <if test="robScbs != null and robScbs!=''"> and `rob_scbs` = #{robScbs}</if>
+				  <if test="robAmount != null and robAmount!=''"> and `rob_amount` = #{robAmount}</if>
+				  <if test="robContext != null and robContext!=''"> and `rob_context` = #{robContext}</if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.RobOrderDO">
+		insert into rob_order
+		(
+			`id`, 
+			`user_id`, 
+			`order_id`, 
+			`rob_status`, 
+			`proof_image`, 
+			`create_date`, 
+			`modify_date`, 
+			`remark`, 
+			`app_code`,
+			`rob_scbs`,
+			`rob_amount`,
+			`rob_context` 
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{orderId}, 
+			#{robStatus}, 
+			#{proofImage}, 
+			#{createDate}, 
+			#{modifyDate}, 
+			#{remark}, 
+			#{appCode},
+			#{robScbs},
+			#{robAmount},
+			#{robContext}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.RobOrderDO">
+		update rob_order 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="orderId != null">`order_id` = #{orderId}, </if>
+			<if test="robStatus != null">`rob_status` = #{robStatus}, </if>
+			<if test="proofImage != null">`proof_image` = #{proofImage}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="appCode != null">`app_code` = #{appCode},</if>
+			<if test="robScbs != null">`rob_scbs` = #{robScbs},</if>
+			<if test="robAmount != null">`rob_amount` = #{robAmount},</if>
+			<if test="robContext != null">`rob_context` = #{robContext}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from rob_order where id = #{value}
+	</delete>
+	
+   <delete id="removeOr">
+		delete from rob_order 
+		<where>
+			<if test="userId != null and userId != ''"> and user_id = #{userId}</if>
+		  	<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		</where>
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from rob_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

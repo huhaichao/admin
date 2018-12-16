@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.TicketOrderDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.TicketOrderDO">
+		select `id`,`order_no`,`phone_no`,`user_id`,`ticket_identity`,`identity_type`,`ticket_name`,`linkman_type`,`from_site`,`to_site`,`departure_date`,`train_num`,`seat_type`,`create_date`,`order_status`,`modify_date`,`order_amount`,`rob_count`,`remark`,`app_code` from ticket_order where id = #{value}
+	</select>
+	
+	<select id="getEntity" resultType="com.irevest.niu.domain.TicketOrderDO">
+		select `id`,`order_no`,`phone_no`,`user_id`,`ticket_identity`,`identity_type`,`ticket_name`,`linkman_type`,`from_site`,`to_site`,`departure_date`,`train_num`,`seat_type`,`create_date`,`order_status`,`modify_date`,`order_amount`,`rob_count`,`remark`,`app_code` from ticket_order where order_no = #{orderNo}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.TicketOrderDO">
+		select `id`,`order_no`,`phone_no`,`user_id`,`ticket_identity`,`identity_type`,`ticket_name`,`linkman_type`,`from_site`,`to_site`,`departure_date`,`train_num`,`seat_type`,`create_date`,`order_status`,`modify_date`,`order_amount`,`rob_count`,`remark`,`app_code` from ticket_order
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="phoneNo != null and phoneNo != ''"> and phone_no = #{phoneNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="ticketIdentity != null and ticketIdentity != ''"> and ticket_identity = #{ticketIdentity} </if>
+		  		  <if test="identityType != null and identityType != ''"> and identity_type = #{identityType} </if>
+		  		  <if test="ticketName != null and ticketName != ''"> and ticket_name = #{ticketName} </if>
+		  		  <if test="linkmanType != null and linkmanType != ''"> and linkman_type = #{linkmanType} </if>
+		  		  <if test="fromSite != null and fromSite != ''"> and from_site = #{fromSite} </if>
+		  		  <if test="toSite != null and toSite != ''"> and to_site = #{toSite} </if>
+		  		  <if test="departureDate != null and departureDate != ''"> and departure_date = #{departureDate} </if>
+		  		  <if test="trainNum != null and trainNum != ''"> and train_num = #{trainNum} </if>
+		  		  <if test="seatType != null and seatType != ''"> and seat_type = #{seatType} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="orderStatus != null and orderStatus != ''"> and order_status = #{orderStatus} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="robCount != null and robCount != ''"> and rob_count = #{robCount} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="appCode != null and appCode != ''"> and app_code = #{appCode} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from ticket_order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="phoneNo != null and phoneNo != ''"> and phone_no = #{phoneNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="ticketIdentity != null and ticketIdentity != ''"> and ticket_identity = #{ticketIdentity} </if>
+		  		  <if test="identityType != null and identityType != ''"> and identity_type = #{identityType} </if>
+		  		  <if test="ticketName != null and ticketName != ''"> and ticket_name = #{ticketName} </if>
+		  		  <if test="linkmanType != null and linkmanType != ''"> and linkman_type = #{linkmanType} </if>
+		  		  <if test="fromSite != null and fromSite != ''"> and from_site = #{fromSite} </if>
+		  		  <if test="toSite != null and toSite != ''"> and to_site = #{toSite} </if>
+		  		  <if test="departureDate != null and departureDate != ''"> and departure_date = #{departureDate} </if>
+		  		  <if test="trainNum != null and trainNum != ''"> and train_num = #{trainNum} </if>
+		  		  <if test="seatType != null and seatType != ''"> and seat_type = #{seatType} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="orderStatus != null and orderStatus != ''"> and order_status = #{orderStatus} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="robCount != null and robCount != ''"> and rob_count = #{robCount} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="appCode != null and appCode != ''"> and app_code = #{appCode} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.TicketOrderDO">
+		insert into ticket_order
+		(
+			`id`, 
+			`order_no`, 
+			`phone_no`, 
+			`user_id`, 
+			`ticket_identity`, 
+			`identity_type`, 
+			`ticket_name`, 
+			`linkman_type`, 
+			`from_site`, 
+			`to_site`, 
+			`departure_date`, 
+			`train_num`, 
+			`seat_type`, 
+			`create_date`, 
+			`order_status`, 
+			`modify_date`, 
+			`order_amount`, 
+			`rob_count`, 
+			`remark`, 
+			`app_code`
+		)
+		values
+		(
+			#{id}, 
+			#{orderNo}, 
+			#{phoneNo}, 
+			#{userId}, 
+			#{ticketIdentity}, 
+			#{identityType}, 
+			#{ticketName}, 
+			#{linkmanType}, 
+			#{fromSite}, 
+			#{toSite}, 
+			#{departureDate}, 
+			#{trainNum}, 
+			#{seatType}, 
+			#{createDate}, 
+			#{orderStatus}, 
+			#{modifyDate}, 
+			#{orderAmount}, 
+			#{robCount}, 
+			#{remark}, 
+			#{appCode}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.TicketOrderDO">
+		update ticket_order 
+		<set>
+			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
+			<if test="phoneNo != null">`phone_no` = #{phoneNo}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="ticketIdentity != null">`ticket_identity` = #{ticketIdentity}, </if>
+			<if test="identityType != null">`identity_type` = #{identityType}, </if>
+			<if test="ticketName != null">`ticket_name` = #{ticketName}, </if>
+			<if test="linkmanType != null">`linkman_type` = #{linkmanType}, </if>
+			<if test="fromSite != null">`from_site` = #{fromSite}, </if>
+			<if test="toSite != null">`to_site` = #{toSite}, </if>
+			<if test="departureDate != null">`departure_date` = #{departureDate}, </if>
+			<if test="trainNum != null">`train_num` = #{trainNum}, </if>
+			<if test="seatType != null">`seat_type` = #{seatType}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="orderStatus != null">`order_status` = #{orderStatus}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="orderAmount != null">`order_amount` = #{orderAmount}, </if>
+			<if test="robCount != null">`rob_count` = #{robCount}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="appCode != null">`app_code` = #{appCode}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from ticket_order where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from ticket_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

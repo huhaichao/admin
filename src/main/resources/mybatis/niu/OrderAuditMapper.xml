@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.OrderAuditDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.OrderAuditDO">
+		select `id`,`user_id`,`rob_order_id`,`audit_status`,`audit_user_id`,`audit_name`,`create_date`,`modify_date`,`remark` from rob_order_audit where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.OrderAuditDO">
+		select `id`,`user_id`,`rob_order_id`,`audit_status`,`audit_user_id`,`audit_name`,`create_date`,`modify_date`,`remark` from rob_order_audit
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="robOrderId != null and robOrderId != ''"> and rob_order_id = #{robOrderId} </if>
+		  		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  		  <if test="auditUserId != null and auditUserId != ''"> and audit_user_id = #{auditUserId} </if>
+		  		  <if test="auditName != null and auditName != ''"> and audit_name = #{auditName} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from rob_order_audit
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="robOrderId != null and robOrderId != ''"> and rob_order_id = #{robOrderId} </if>
+		  		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  		  <if test="auditUserId != null and auditUserId != ''"> and audit_user_id = #{auditUserId} </if>
+		  		  <if test="auditName != null and auditName != ''"> and audit_name = #{auditName} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.OrderAuditDO" useGeneratedKeys="true" keyProperty="id">
+		insert into rob_order_audit
+		(
+			`user_id`, 
+			`rob_order_id`, 
+			`audit_status`, 
+			`audit_user_id`, 
+			`audit_name`, 
+			`create_date`, 
+			`modify_date`, 
+			`remark`
+		)
+		values
+		(
+			#{userId}, 
+			#{robOrderId}, 
+			#{auditStatus}, 
+			#{auditUserId}, 
+			#{auditName}, 
+			#{createDate}, 
+			#{modifyDate}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.OrderAuditDO">
+		update rob_order_audit 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="robOrderId != null">`rob_order_id` = #{robOrderId}, </if>
+			<if test="auditStatus != null">`audit_status` = #{auditStatus}, </if>
+			<if test="auditUserId != null">`audit_user_id` = #{auditUserId}, </if>
+			<if test="auditName != null">`audit_name` = #{auditName}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from rob_order_audit where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from rob_order_audit where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

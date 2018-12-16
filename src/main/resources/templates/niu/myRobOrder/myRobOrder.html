@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+				<div class="fixed-table-toolbar">
+					<div class="columns pull-left">
+						 <h3>订单状态：</h3>
+						</div>
+						<div class="columns pull-left col-md-2 nopadding">
+							<select id="disabledSelect" class="form-control">
+							  <option value="">全部</option>
+					          <option value="robing">抢票中</option>
+					          <option value="user_pay">付费中</option>
+					          <option value="success">已完成</option>
+					          <option value="ticket_success">已出票</option>
+					        </select>
+						</div>
+                      </div>
+                      <input id="idSelect" name="idSelect" type="hidden"/>
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button shiro:hasPermission="niu:myRobOrder:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="niu:myRobOrder:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						<div class="columns pull-right">
+							<button type="button" id="download" style="margin-left:50px" id="btn_download" class="btn btn-primary" onClick ="$('#exampleTable').tableExport({ type: 'excel', escape: 'false',fileName:'订单信息' })">数据导出</button>
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自irevest的创新方案 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="niu:myRobOrder:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="niu:myRobOrder:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="niu:myRobOrder:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/niu/myRobOrder/myRobOrder.js"></script>
+				<!-- bootstrap表格导出执行-->
+	<script src="/js/appjs/niu/tableExport.js"></script>
+	<script src="/js/appjs/niu/FileSaver.min.js"></script>
+</body>
+</html>

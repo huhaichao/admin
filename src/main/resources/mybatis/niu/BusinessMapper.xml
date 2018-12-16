@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.BusinessDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.BusinessDO">
+		select `id`,`user_id`,`business_identity`,`business_name`,`business_addrr`,`business_post`,`business_status`,`identity_image`,`create_date`,`modify_date`,`benefit_rate`,`remark`,`business_account` from ticket_business where id = #{value}
+	</select>
+	<select id="getBusiness" resultType="com.irevest.niu.domain.BusinessDO">
+		select `id`,`user_id`,`business_identity`,`business_name`,`business_addrr`,`business_post`,`business_status`,`identity_image`,`create_date`,`modify_date`,`benefit_rate`,`remark`,`business_account` from ticket_business where user_id = #{value}
+	</select>
+	<select id="list" resultType="com.irevest.niu.domain.BusinessDO">
+		select `id`,`user_id`,`business_identity`,`business_name`,`business_addrr`,`business_post`,`business_status`,`identity_image`,`create_date`,`modify_date`,`benefit_rate`,`remark`,`business_account` from ticket_business
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="businessIdentity != null and businessIdentity != ''"> and business_identity = #{businessIdentity} </if>
+		  		  <if test="businessName != null and businessName != ''"> and business_name = #{businessName} </if>
+		  		  <if test="businessAddrr != null and businessAddrr != ''"> and business_addrr = #{businessAddrr} </if>
+		  		  <if test="businessPost != null and businessPost != ''"> and business_post = #{businessPost} </if>
+		  		  <if test="businessStatus != null and businessStatus != ''"> and business_status = #{businessStatus} </if>
+		  		  <if test="identityImage != null and identityImage != ''"> and identity_image = #{identityImage} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="benefitRate != null and benefitRate != ''"> and benefit_rate = #{benefitRate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="businessAccount != null and businessAccount != ''"> and businessAccount = #{businessAccount} </if>
+		  		  
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from ticket_business
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="businessIdentity != null and businessIdentity != ''"> and business_identity = #{businessIdentity} </if>
+		  		  <if test="businessName != null and businessName != ''"> and business_name = #{businessName} </if>
+		  		  <if test="businessAddrr != null and businessAddrr != ''"> and business_addrr = #{businessAddrr} </if>
+		  		  <if test="businessPost != null and businessPost != ''"> and business_post = #{businessPost} </if>
+		  		  <if test="businessStatus != null and businessStatus != ''"> and business_status = #{businessStatus} </if>
+		  		  <if test="identityImage != null and identityImage != ''"> and identity_image = #{identityImage} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		  <if test="benefitRate != null and benefitRate != ''"> and benefit_rate = #{benefitRate} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="businessAccount != null and businessAccount != ''"> and businessAccount = #{businessAccount} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.BusinessDO" useGeneratedKeys="true" keyProperty="id">
+		insert into ticket_business
+		(
+			`user_id`, 
+			`business_identity`, 
+			`business_name`, 
+			`business_addrr`, 
+			`business_post`, 
+			`business_status`, 
+			`identity_image`, 
+			`create_date`, 
+			`modify_date`, 
+			`benefit_rate`, 
+			`remark`,
+			`business_account`
+		)
+		values
+		(
+			#{userId}, 
+			#{businessIdentity}, 
+			#{businessName}, 
+			#{businessAddrr}, 
+			#{businessPost}, 
+			#{businessStatus}, 
+			#{identityImage}, 
+			#{createDate}, 
+			#{modifyDate}, 
+			#{benefitRate}, 
+			#{remark},
+			#{businessAccount}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.BusinessDO">
+		update ticket_business 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="businessIdentity != null">`business_identity` = #{businessIdentity}, </if>
+			<if test="businessName != null">`business_name` = #{businessName}, </if>
+			<if test="businessAddrr != null">`business_addrr` = #{businessAddrr}, </if>
+			<if test="businessPost != null">`business_post` = #{businessPost}, </if>
+			<if test="businessStatus != null">`business_status` = #{businessStatus}, </if>
+			<if test="identityImage != null">`identity_image` = #{identityImage}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}, </if>
+			<if test="benefitRate != null">`benefit_rate` = #{benefitRate}, </if>
+			<if test="remark != null">`remark` = #{remark},</if>
+			<if test="businessAccount != null">`business_account` = #{businessAccount}</if>
+			
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from ticket_business where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from ticket_business where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

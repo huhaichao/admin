@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.SiteDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.SiteDO">
+		select
+		`id`,`site_zw`,`site_dh`,`site_py`,`site_jx`,`site_createDate`,`remark`
+		from ticket_site where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.SiteDO">
+		select
+		`id`,`site_zw`,`site_dh`,`site_py`,`site_jx`,`site_createDate`,`remark`
+		from ticket_site
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="siteZw != null and siteZw != ''"> and site_zw = #{siteZw} </if>
+			<if test="siteDh != null and siteDh != ''"> and site_dh = #{siteDh} </if>
+			<if test="sitePy != null and sitePy != ''"> and site_py = #{sitePy} </if>
+			<if test="siteJx != null and siteJx != ''"> and site_jx = #{siteJx} </if>
+			<if test="siteCreatedate != null and siteCreatedate != ''"> and site_createDate = #{siteCreatedate} </if>
+			<if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id asc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from ticket_site
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="siteZw != null and siteZw != ''"> and site_zw = #{siteZw} </if>
+			<if test="siteDh != null and siteDh != ''"> and site_dh = #{siteDh} </if>
+			<if test="sitePy != null and sitePy != ''"> and site_py = #{sitePy} </if>
+			<if test="siteJx != null and siteJx != ''"> and site_jx = #{siteJx} </if>
+			<if test="siteCreatedate != null and siteCreatedate != ''"> and site_createDate = #{siteCreatedate} </if>
+			<if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.irevest.niu.domain.SiteDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into ticket_site
+		(
+		`site_zw`,
+		`site_dh`,
+		`site_py`,
+		`site_jx`,
+		`site_createDate`,
+		`remark`
+		)
+		values
+		(
+		#{siteZw},
+		#{siteDh},
+		#{sitePy},
+		#{siteJx},
+		#{siteCreatedate},
+		#{remark}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.irevest.niu.domain.SiteDO">
+		update ticket_site
+		<set>
+			<if test="siteZw != null">`site_zw` = #{siteZw}, </if>
+			<if test="siteDh != null">`site_dh` = #{siteDh}, </if>
+			<if test="sitePy != null">`site_py` = #{sitePy}, </if>
+			<if test="siteJx != null">`site_jx` = #{siteJx}, </if>
+			<if test="siteCreatedate != null">`site_createDate` = #{siteCreatedate}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from ticket_site where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from ticket_site where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<delete id="removeAll">
+		delete from ticket_site
+	</delete>
+
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.niu.dao.UserWxinfoDao">
+
+	<select id="get" resultType="com.irevest.niu.domain.UserWxinfoDO">
+		select `id`,`user_id`,`nickName`,`openid`,`session_key`,`unionid`,`gender`,`phoneNumber`,`countryCode`,`purePhoneNumber`,`city`,`province`,`country`,`language`,`create_date`,`modify_date` from user_wxinfo where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.irevest.niu.domain.UserWxinfoDO">
+		select `id`,`user_id`,`nickName`,`openid`,`session_key`,`unionid`,`gender`,`phoneNumber`,`countryCode`,`purePhoneNumber`,`city`,`province`,`country`,`language`,`create_date`,`modify_date` from user_wxinfo
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="nickname != null and nickname != ''"> and nickName = #{nickname} </if>
+		  		  <if test="openid != null and openid != ''"> and openid = #{openid} </if>
+		  		  <if test="sessionKey != null and sessionKey != ''"> and session_key = #{sessionKey} </if>
+		  		  <if test="unionid != null and unionid != ''"> and unionid = #{unionid} </if>
+		  		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  		  <if test="phonenumber != null and phonenumber != ''"> and phoneNumber = #{phonenumber} </if>
+		  		  <if test="countrycode != null and countrycode != ''"> and countryCode = #{countrycode} </if>
+		  		  <if test="purephonenumber != null and purephonenumber != ''"> and purePhoneNumber = #{purephonenumber} </if>
+		  		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  		  <if test="country != null and country != ''"> and country = #{country} </if>
+		  		  <if test="language != null and language != ''"> and language = #{language} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from user_wxinfo
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="nickname != null and nickname != ''"> and nickName = #{nickname} </if>
+		  		  <if test="openid != null and openid != ''"> and openid = #{openid} </if>
+		  		  <if test="sessionKey != null and sessionKey != ''"> and session_key = #{sessionKey} </if>
+		  		  <if test="unionid != null and unionid != ''"> and unionid = #{unionid} </if>
+		  		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  		  <if test="phonenumber != null and phonenumber != ''"> and phoneNumber = #{phonenumber} </if>
+		  		  <if test="countrycode != null and countrycode != ''"> and countryCode = #{countrycode} </if>
+		  		  <if test="purephonenumber != null and purephonenumber != ''"> and purePhoneNumber = #{purephonenumber} </if>
+		  		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  		  <if test="country != null and country != ''"> and country = #{country} </if>
+		  		  <if test="language != null and language != ''"> and language = #{language} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="modifyDate != null and modifyDate != ''"> and modify_date = #{modifyDate} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.niu.domain.UserWxinfoDO">
+		insert into user_wxinfo
+		(
+			`id`, 
+			`user_id`, 
+			`nickName`, 
+			`openid`, 
+			`session_key`, 
+			`unionid`, 
+			`gender`, 
+			`phoneNumber`, 
+			`countryCode`, 
+			`purePhoneNumber`, 
+			`city`, 
+			`province`, 
+			`country`, 
+			`language`, 
+			`create_date`, 
+			`modify_date`
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{nickname}, 
+			#{openid}, 
+			#{sessionKey}, 
+			#{unionid}, 
+			#{gender}, 
+			#{phonenumber}, 
+			#{countrycode}, 
+			#{purephonenumber}, 
+			#{city}, 
+			#{province}, 
+			#{country}, 
+			#{language}, 
+			#{createDate}, 
+			#{modifyDate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.niu.domain.UserWxinfoDO">
+		update user_wxinfo 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="nickname != null">`nickName` = #{nickname}, </if>
+			<if test="openid != null">`openid` = #{openid}, </if>
+			<if test="sessionKey != null">`session_key` = #{sessionKey}, </if>
+			<if test="unionid != null">`unionid` = #{unionid}, </if>
+			<if test="gender != null">`gender` = #{gender}, </if>
+			<if test="phonenumber != null">`phoneNumber` = #{phonenumber}, </if>
+			<if test="countrycode != null">`countryCode` = #{countrycode}, </if>
+			<if test="purephonenumber != null">`purePhoneNumber` = #{purephonenumber}, </if>
+			<if test="city != null">`city` = #{city}, </if>
+			<if test="province != null">`province` = #{province}, </if>
+			<if test="country != null">`country` = #{country}, </if>
+			<if test="language != null">`language` = #{language}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="modifyDate != null">`modify_date` = #{modifyDate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from user_wxinfo where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from user_wxinfo where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.irevest.home.dao.SyTeamDao">
+
+	<select id="get" resultType="com.irevest.home.domain.SyTeamDO">
+		select `T_SY_ID`,`T_SY_NAME`,`T_SY_SRC`,`T_SY_TWITTER_URL`,`T_SY_SKYPE_URL`,`T_SY_FACEBOOK_URL`,`T_SY_CONTENT` from t_sy_team where T_SY_ID = #{value}
+	</select>
+
+
+
+	<select id="allList" resultType="com.irevest.home.domain.SyTeamDO">
+		select `T_SY_ID`,`T_SY_NAME`,`T_SY_SRC`,`T_SY_TWITTER_URL`,`T_SY_SKYPE_URL`,`T_SY_FACEBOOK_URL`,`T_SY_CONTENT` from t_sy_team 
+	</select>
+	
+	
+	<select id="list" resultType="com.irevest.home.domain.SyTeamDO">
+		select `T_SY_ID`,`T_SY_NAME`,`T_SY_SRC`,`T_SY_TWITTER_URL`,`T_SY_SKYPE_URL`,`T_SY_FACEBOOK_URL`,`T_SY_CONTENT` from t_sy_team
+        <where>  
+		  		  <if test="tSyId != null and tSyId != ''"> and T_SY_ID = #{tSyId} </if>
+		  		  <if test="tSyName != null and tSyName != ''"> and T_SY_NAME = #{tSyName} </if>
+		  		  <if test="tSySrc != null and tSySrc != ''"> and T_SY_SRC = #{tSySrc} </if>
+		  		  <if test="tSyTwitterUrl != null and tSyTwitterUrl != ''"> and T_SY_TWITTER_URL = #{tSyTwitterUrl} </if>
+		  		  <if test="tSySkypeUrl != null and tSySkypeUrl != ''"> and T_SY_SKYPE_URL = #{tSySkypeUrl} </if>
+		  		  <if test="tSyFacebookUrl != null and tSyFacebookUrl != ''"> and T_SY_FACEBOOK_URL = #{tSyFacebookUrl} </if>
+		  		  <if test="tSyContent != null and tSyContent != ''"> and T_SY_CONTENT = #{tSyContent} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by T_SY_ID desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_sy_team
+		 <where>  
+		  		  <if test="tSyId != null and tSyId != ''"> and T_SY_ID = #{tSyId} </if>
+		  		  <if test="tSyName != null and tSyName != ''"> and T_SY_NAME = #{tSyName} </if>
+		  		  <if test="tSySrc != null and tSySrc != ''"> and T_SY_SRC = #{tSySrc} </if>
+		  		  <if test="tSyTwitterUrl != null and tSyTwitterUrl != ''"> and T_SY_TWITTER_URL = #{tSyTwitterUrl} </if>
+		  		  <if test="tSySkypeUrl != null and tSySkypeUrl != ''"> and T_SY_SKYPE_URL = #{tSySkypeUrl} </if>
+		  		  <if test="tSyFacebookUrl != null and tSyFacebookUrl != ''"> and T_SY_FACEBOOK_URL = #{tSyFacebookUrl} </if>
+		  		  <if test="tSyContent != null and tSyContent != ''"> and T_SY_CONTENT = #{tSyContent} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.irevest.home.domain.SyTeamDO" useGeneratedKeys="true" keyProperty="tSyId">
+		insert into t_sy_team
+		(
+			`T_SY_NAME`, 
+			`T_SY_SRC`, 
+			`T_SY_TWITTER_URL`, 
+			`T_SY_SKYPE_URL`, 
+			`T_SY_FACEBOOK_URL`, 
+			`T_SY_CONTENT`
+		)
+		values
+		(
+			#{tSyName}, 
+			#{tSySrc}, 
+			#{tSyTwitterUrl}, 
+			#{tSySkypeUrl}, 
+			#{tSyFacebookUrl}, 
+			#{tSyContent}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.irevest.home.domain.SyTeamDO">
+		update t_sy_team 
+		<set>
+			<if test="tSyName != null">`T_SY_NAME` = #{tSyName}, </if>
+			<if test="tSySrc != null">`T_SY_SRC` = #{tSySrc}, </if>
+			<if test="tSyTwitterUrl != null">`T_SY_TWITTER_URL` = #{tSyTwitterUrl}, </if>
+			<if test="tSySkypeUrl != null">`T_SY_SKYPE_URL` = #{tSySkypeUrl}, </if>
+			<if test="tSyFacebookUrl != null">`T_SY_FACEBOOK_URL` = #{tSyFacebookUrl}, </if>
+			<if test="tSyContent != null">`T_SY_CONTENT` = #{tSyContent}</if>
+		</set>
+		where T_SY_ID = #{tSyId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_sy_team where T_SY_ID = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_sy_team where T_SY_ID in 
+		<foreach item="tSyId" collection="array" open="(" separator="," close=")">
+			#{tSyId}
+		</foreach>
+	</delete>
+
+</mapper>
